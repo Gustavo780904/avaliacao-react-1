@@ -11,7 +11,10 @@
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-
+        .ranking tr,
+        td {
+            border: 1px solid black;
+        }
     </style>
 </head>
 
@@ -27,15 +30,32 @@ constructor(props) {
 }
 componentDidMount() {
     let users = [];
-    fetch('json/ranking.json')
+    fetch('json/users.json')
         .then(file => file.json())
         .then(contents => {
             contents.users.forEach((user, i) => {
-                users[i] = { "nome": user.nome, "pontuacao": user.pontuacao };
+                users[i] = { "username": user.username, "score": user.score, "level": user.level };
             });
-            this.setState({ users: users });
+            this.setState({users: users });
         })
         .catch(err => console.log(err));
+}
+selectLevel(){
+var level;
+level = document.getElementById("level").value
+
+const strategy = (a, b) => b - a;
+   var levelFilter = (userslist, level) => (userslist.filter(valor => valor.level === level)).map((score, user) => ({...user, ...score })).reduce((list, next) => [...list, next], []).sort((a, b) => strategy(a.score, b.score));
+    console.log(levelFilter(users, level))
+    rankingLevel = levelFilter(this.users, level, strategy)
+
+    
+    // tableLine = new Array();
+    // for (data in rankingLevel) {
+    //     tableLine[data] = (`<tr class="table-light"><td>${$rankingLevel[data].username}</td><td>${$rankingLevel[data].score}</td><td>${$rankingLevel[data].level}</td></tr>`)
+    // }
+    
+    this.setState({users: rankingLevel}) 
 }
 
 componentWillUnmount() {
@@ -54,6 +74,7 @@ render() {
                     <tr>
                         <td>Nome</td>
                         <td>Pontuação</td>
+                        <td>Nível</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,14 +82,22 @@ render() {
                         this.state.users.map(function (users) {
                             return (
                                 <tr>
-                                    <td>{users.nome}</td>
-                                    <td>{users.pontuacao}</td>
+                                    <td>{users.username}</td>
+                                    <td>{users.score}</td>
+                                    <td>{users.level}</td>
                                 </tr>
                             )
                         })
                     }
+                    
                 </tbody>
             </table>
+            <select name="" id="level">
+                        <option id="easy" value="easy">Easy</option>
+                        <option id="medium" value="medium">Medium</option>
+                        <option id="hard"  value="hard">Hard</option>
+                    </select>
+                    <button onClick={this.selectLevel}>Visualizar</button>
         </div>
     )
 }

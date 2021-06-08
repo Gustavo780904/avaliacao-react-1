@@ -1,0 +1,16 @@
+h1 {
+    color: rgb(243, 0, 0);
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+body {
+    background-color: rgba(255, 255, 255, 0.418);
+}
+
+table {
+    align-items: center;
+    margin-right: auto;
+    margin-left: auto;
+}

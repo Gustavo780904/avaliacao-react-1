@@ -63,7 +63,7 @@
                 this.setState({ pos: this.state.pos + 1 });
             }
             stop() {
-                this.setState({timeId: clearInterval(timeId)})
+                this.setState({timeId: clearInterval(this.timeId)})
                 this.setState({ pos: 0 });
             }
             pause() {
@@ -112,6 +112,7 @@
             }
 
         }
+        
 
         ReactDOM.render(<SlideShow/>, document.getElementById("root"))
 
